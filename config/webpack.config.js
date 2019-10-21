@@ -408,7 +408,8 @@ module.exports = function(webpackEnv) {
             // Unlike the application JS, we only compile the standard ES features.
             {
               test: /\.(js|mjs)$/,
-              exclude: /@babel(?:\/|\\{1,2})runtime/,
+              // exclude: /@babel(?:\/|\\{1,2})runtime/,
+              exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/,/\.styl$/],
               loader: require.resolve('babel-loader'),
               options: {
                 babelrc: false,
@@ -507,6 +508,7 @@ module.exports = function(webpackEnv) {
               // Also exclude `html` and `json` extensions so they get processed
               // by webpacks internal loaders.
               exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/],
+              exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/,/\.styl$/],
               options: {
                 name: 'static/media/[name].[hash:8].[ext]',
               },
@@ -515,6 +517,15 @@ module.exports = function(webpackEnv) {
             // Make sure to add the new loader(s) before the "file" loader.
           ],
         },
+        {
+          test: /\.styl$/,
+          use: [
+            require.resolve('style-loader'),
+            require.resolve('css-loader'),
+            require.resolve('stylus-loader')
+          ]
+        },
+
       ],
     },
     plugins: [
